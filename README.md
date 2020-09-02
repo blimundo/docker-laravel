@@ -15,9 +15,14 @@ Bringing up the Docker Compose network with `site` instead of just using `up`, e
 - **nginx** - `:8080`
 - **mysql** - `:3307` (avoid clash if MySQL is installed locally)
 - **php** - `:9000`
+- **redis** - `:6379`
 
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
 - `docker-compose run --rm composer update`
 - `docker-compose run --rm npm run dev`
 - `docker-compose run --rm artisan migrate` 
+
+To access redis:
+
+- `sudo docker exec -it redis redis-cli`
