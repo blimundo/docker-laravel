@@ -15,7 +15,6 @@ services:
     depends_on:
       - php
       - mysql
-      - redis
     networks:
       - laravel
 
@@ -51,7 +50,7 @@ services:
       - laravel
 
   composer:
-    image: composer:latest
+    image: composer:2:0
     container_name: composer
     volumes:
       - ./src:/var/www/html
@@ -84,7 +83,26 @@ services:
       - laravel
 
   redis:
-    image: redis:latest
+    image: redis:alpine
     ports:
         - "6379:6379"
     container_name: redis
+    restart: unless-stopped
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    restart: always
+    ports:
+      - "8081:80"
+    networks:
+      - laravel
+    depends_on:
+      - php
+      - mysql
